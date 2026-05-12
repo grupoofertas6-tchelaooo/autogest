@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "AutoGest Cliente",
+    "slug": "autogest-cliente",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.autogest.cliente"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#1565C0"
+      },
+      "package": "com.autogest.cliente"
+    },
+  "extra": {
+      "eas": {
+        "projectId": "autogest-cliente"
+      }
+    }
+  }
+}

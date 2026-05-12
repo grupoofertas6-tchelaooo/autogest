@@ -1,0 +1,70 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Mechanics
+    match /mechanics/{mechanicId} {
+      allow read: if request.auth != null && request.auth.uid == mechanicId;
+      allow write: if request.auth != null && request.auth.uid == mechanicId;
+    }
+
+    // Clients - mechanics can manage, clients can read their own by email
+    match /clients/{clientId} {
+      allow read: if request.auth != null && (
+        resource.data.mechanicId == request.auth.uid ||
+        resource.data.email == request.auth.token.email
+      );
+      allow create: if request.auth != null && request.resource.data.mechanicId == request.auth.uid;
+      allow update: if request.auth != null && resource.data.mechanicId == request.auth.uid;
+      allow delete: if request.auth != null && resource.data.mechanicId == request.auth.uid;
+    }
+
+    // Cars - mechanics can manage, clients can read (app filters by email)
+    match /cars/{carId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.resource.data.mechanicId == request.auth.uid;
+      allow update: if request.auth != null && resource.data.mechanicId == request.auth.uid;
+      allow delete: if request.auth != null && resource.data.mechanicId == request.auth.uid;
+    }
+
+    // Service Orders
+    match /serviceOrders/{orderId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.resource.data.mechanicId == request.auth.uid;
+      allow update: if request.auth != null && resource.data.mechanicId == request.auth.uid;
+      allow delete: if request.auth != null && resource.data.mechanicId == request.auth.uid;
+    }
+
+    // Oil Changes
+    match /oilChanges/{changeId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.resource.data.mechanicId == request.auth.uid;
+      allow update: if request.auth != null && resource.data.mechanicId == request.auth.uid;
+      allow delete: if request.auth != null && resource.data.mechanicId == request.auth.uid;
+    }
+
+    // Maintenance Schedules
+    match /maintenanceSchedules/{scheduleId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.resource.data.mechanicId == request.auth.uid;
+      allow update: if request.auth != null && resource.data.mechanicId == request.auth.uid;
+      allow delete: if request.auth != null && resource.data.mechanicId == request.auth.uid;
+    }
+
+    // Notifications
+    match /notifications/{notificationId} {
+      allow read: if request.auth != null && (
+        resource.data.mechanicId == request.auth.uid ||
+        resource.data.clientId == request.auth.uid
+      );
+      allow write: if request.auth != null && resource.data.mechanicId == request.auth.uid;
+    }
+
+    // Settings
+    match /settings/{settingId} {
+      allow read: if request.auth != null && resource.data.mechanicId == request.auth.uid;
+      allow write: if request.auth != null && resource.data.mechanicId == request.auth.uid;
+    }
+  }
+}

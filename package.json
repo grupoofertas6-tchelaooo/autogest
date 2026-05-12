@@ -1,0 +1,21 @@
+{
+  "name": "autogest",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AutoGest - Sistema de gestão para oficinas mecânicas",
+  "scripts": {
+    "dev:web": "npm run dev -w apps/web",
+    "build:web": "npm run build -w apps/web",
+    "dev:mobile": "npm run dev -w apps/mobile",
+    "build:mobile": "npm run build -w apps/mobile",
+    "lint": "npm run lint -w apps/web",
+    "typecheck": "npm run typecheck -w packages/shared"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "dependencies": {
+    "expo": "~54.0.0"
+  }
+}
